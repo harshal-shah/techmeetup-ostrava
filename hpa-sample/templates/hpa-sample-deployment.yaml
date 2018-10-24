@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hpa-sample.fullname" . }}
+  labels:
+    app: {{ include "hpa-sample.name" . }}
+    app.kubernetes.io/name: {{ include "hpa-sample.name" . }}
+    helm.sh/chart: {{ include "hpa-sample.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "hpa-sample.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "hpa-sample.name" . }}
+    spec:
+      containers:
+      - image: luxas/autoscale-demo:v0.1.2
+        name: metrics-provider
+      ports:
+      - name: http
+        port: 8080

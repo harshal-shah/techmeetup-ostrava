@@ -1,0 +1,41 @@
+
+context: gke_hs-k8s-211614_us-central1-a_scaling-demo
+
+releases:
+
+  - name: ingress-nginx
+    namespace: utility
+    chart: stable/nginx-ingress
+    values:
+      - rbac.create: true
+
+  - name: prometheus-operator
+    namespace: monitoring
+    chart: coreos/prometheus-operator
+    values:
+      - rbacEnable: true
+    labels:
+      chart: prometheus-operator
+    version: 0.0.27
+
+  - name: kube-prometheus
+    namespace: monitoring
+    chart: coreos/kube-prometheus
+    version: 0.0.102
+    values: [ ./prometheus/values.yaml ]
+    labels:
+      chart: kube-prometheus
+
+  - name: prometheus-adapter
+    namespace: monitoring
+    chart: stable/prometheus-adapter
+    version: v0.1.0
+    values: [ ./prometheus-adapter/values.yaml ]
+    labels:
+      chart: prometheus-adapter
+
+  - name: hpa-sample
+    chart: ./hpa-sample
+    version: 0.1.0
+    labels:
+      chart: hpa-sample
