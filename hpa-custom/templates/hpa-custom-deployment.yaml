@@ -1,26 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "hpa-sample.fullname" . }}
+  name: {{ include "hpa-custom.fullname" . }}
   labels:
-    app: {{ include "hpa-sample.name" . }}
-    app.kubernetes.io/name: {{ include "hpa-sample.name" . }}
-    helm.sh/chart: {{ include "hpa-sample.chart" . }}
+    app: {{ include "hpa-custom.name" . }}
+    app.kubernetes.io/name: {{ include "hpa-custom.name" . }}
+    helm.sh/chart: {{ include "hpa-custom.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: {{ include "hpa-sample.name" . }}
+      app: {{ include "hpa-custom.name" . }}
   template:
     metadata:
       labels:
-        app: {{ include "hpa-sample.name" . }}
+        app: {{ include "hpa-custom.name" . }}
     spec:
       containers:
       - image: luxas/autoscale-demo:v0.1.2
         name: metrics-provider
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
       ports:
       - name: http
         port: 8080
+
+

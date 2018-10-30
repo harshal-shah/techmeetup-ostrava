@@ -1,0 +1,19 @@
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2beta1
+metadata:
+  name: {{ include "hpa-cpu.fullname" . }}
+spec:
+  scaleTargetRef:
+    # point the HPA at the sample application
+    # you created above
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "hpa-cpu.fullname" . }}
+  # autoscale between 1 and 10 replicas
+  minReplicas: {{ .Values.hpa.min }}
+  maxReplicas: {{ .Values.hpa.max }}
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageValue: {{ .Values.hpa.targetCPUValue }}

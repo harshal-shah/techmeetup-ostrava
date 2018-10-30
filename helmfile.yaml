@@ -33,9 +33,15 @@ releases:
     values: [ ./prometheus-adapter/values.yaml ]
     labels:
       chart: prometheus-adapter
-
-  - name: hpa-sample
-    chart: ./hpa-sample
+  - name: hpa-cpu
+    namespace: default
+    chart: ./hpa-cpu
     version: 0.1.0
     labels:
-      chart: hpa-sample
+      chart: hpa-cpu
+  - name: hpa-custom
+    namespace: default
+    chart: ./hpa-custom
+    version: 0.1.0
+    labels:
+      chart: hpa-custom

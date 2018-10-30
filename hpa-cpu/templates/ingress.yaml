@@ -1,13 +1,13 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "hpa-sample.name" . -}}
+{{- $fullName := include "hpa-cpu.fullname" . -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    app.kubernetes.io/name: {{ include "hpa-sample.name" . }}
-    helm.sh/chart: {{ include "hpa-sample.chart" . }}
+    app.kubernetes.io/name: {{ include "hpa-cpu.name" . }}
+    helm.sh/chart: {{ include "hpa-cpu.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- with .Values.ingress.annotations }}

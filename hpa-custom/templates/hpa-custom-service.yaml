@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "hpa-sample.name" . }}
+  name: {{ include "hpa-custom.name" . }}
   labels:
-    app: {{ include "hpa-sample.name" . }}
-    app.kubernetes.io/name: {{ include "hpa-sample.name" . }}
-    helm.sh/chart: {{ include "hpa-sample.chart" . }}
+    app: {{ include "hpa-custom.name" . }}
+    app.kubernetes.io/name: {{ include "hpa-custom.name" . }}
+    helm.sh/chart: {{ include "hpa-custom.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
@@ -16,24 +16,24 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: hpa-sample
+    app: hpa-custom
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    k8s_app: hpa-sample-servicemonitor
+    k8s_app: hpa-custom-servicemonitor
     prometheus: kube-prometheus
-  name: hpa-sample-sm
+  name: hpa-custom-sm
   namespace: monitoring
 spec:
   endpoints:
   - interval: 30s
     port: http
-  jobLabel: {{ include "hpa-sample.name" . }}
+  jobLabel: {{ include "hpa-custom.name" . }}
   namespaceSelector:
     matchNames:
     - default
   selector:
     matchLabels:
-      app: {{ include "hpa-sample.name" . }}
+      app: {{ include "hpa-custom.name" . }}
