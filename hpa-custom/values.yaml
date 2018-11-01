@@ -29,6 +29,10 @@ resources:
     cpu: 30m
     memory: 68Mi
 
+hpa:
+  min: 1
+  max: 10
+  targetAverageValue: 66m
 nodeSelector: {}
 
 tolerations: []

@@ -46,4 +46,4 @@ affinity: {}
 hpa:
   min: 1
   max: 10
-  targetCPUValue: 150m
+  targetCPUValue: 100m
